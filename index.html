@@ -8,7 +8,6 @@
     html, body { background: transparent; margin: 0; padding: 0; }
     body { max-width: 680px; margin: 0 auto; padding: 1rem 0 5rem; }
     .eh-wordmark { display: none; }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: transparent; --text: #1a1a1a; --muted: #888; --border: #c8c4bc;
@@ -24,7 +23,7 @@
     .eh-field { margin-bottom: 1.4rem; }
     .eh-field label { display: block; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); font-weight: 700; margin-bottom: 0.35rem; }
     .eh-field input[type="text"], .eh-field input[type="email"], .eh-field input[type="tel"],
-    .eh-field input[type="date"], .eh-field input[type="number"], .eh-field textarea, .eh-field select {
+    .eh-field input[type="date"], .eh-field input[type="number"], .eh-field textarea {
       width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border);
       padding: 0.35rem 0; font-family: var(--font); font-size: 1.05rem; color: var(--text);
       outline: none; transition: border-color 0.2s; border-radius: 0; -webkit-appearance: none;
@@ -51,6 +50,10 @@
     .eh-field-error .eh-error-msg { display: block; }
     .two-col { display: flex; gap: 1.5rem; }
     .two-col .eh-field { flex: 1; }
+    .rehearsal-expand { display: none; margin-top: 1rem; padding: 1.2rem; border: 1px solid var(--border); }
+    .rehearsal-expand.visible { display: block; }
+    .rehearsal-expand .eh-field { margin-bottom: 1rem; }
+    .subsection-label { font-family: var(--sans); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; }
   </style>
 </head>
 <body>
@@ -73,14 +76,16 @@
     <!-- SECTION 1: You -->
     <div class="eh-section active" id="eh-section-0">
       <p class="section-label">01 / 05 — you</p>
-      <div class="eh-field">
-        <label for="eh-name">Your Name *</label>
-        <input type="text" id="eh-name" name="name" placeholder="Full name" />
-        <span class="eh-error-msg">This field is required.</span>
-      </div>
-      <div class="eh-field">
-        <label for="eh-partner">Partner's Name</label>
-        <input type="text" id="eh-partner" name="partner_name" placeholder="Partner's full name" />
+      <div class="two-col">
+        <div class="eh-field">
+          <label for="eh-name">Your Name *</label>
+          <input type="text" id="eh-name" name="name" placeholder="Your name" />
+          <span class="eh-error-msg">Required.</span>
+        </div>
+        <div class="eh-field">
+          <label for="eh-partner">Partner's Name</label>
+          <input type="text" id="eh-partner" name="partner_name" placeholder="Optional" />
+        </div>
       </div>
       <div class="eh-field">
         <label for="eh-email">Email *</label>
@@ -93,7 +98,7 @@
       </div>
       <div class="eh-field">
         <label for="eh-planner">Wedding Planner / Coordinator</label>
-        <input type="text" id="eh-planner" name="planner" placeholder="Name and contact if applicable" />
+        <input type="text" id="eh-planner" name="planner" placeholder="Name and contact if you have one" />
       </div>
       <div class="eh-actions">
         <span></span>
@@ -110,19 +115,77 @@
         <span class="eh-error-msg">Please enter a date.</span>
       </div>
       <div class="eh-field">
-        <label for="eh-venue">Venue / Location *</label>
-        <input type="text" id="eh-venue" name="venue" placeholder="Venue name and city" />
+        <label>How far out is your wedding?</label>
+        <div class="pill-group">
+          <span class="eh-pill"><input type="radio" name="wedding_timing" id="wt1" value="This year"><label for="wt1">This Year</label></span>
+          <span class="eh-pill"><input type="radio" name="wedding_timing" id="wt2" value="About 1 year out"><label for="wt2">~1 Year Out</label></span>
+          <span class="eh-pill"><input type="radio" name="wedding_timing" id="wt3" value="18+ months out"><label for="wt3">18+ Months</label></span>
+          <span class="eh-pill"><input type="radio" name="wedding_timing" id="wt4" value="Not sure yet"><label for="wt4">Not Sure</label></span>
+        </div>
+      </div>
+      <div class="eh-field">
+        <label>Venue</label>
+        <div class="pill-group" style="margin-bottom:0.6rem;">
+          <span class="eh-pill"><input type="checkbox" id="venue_argyle" name="venue_preset" value="Argyle House"><label for="venue_argyle">Argyle House</label></span>
+        </div>
+        <input type="text" id="eh-venue" name="venue" placeholder="Or enter venue name and city" />
         <span class="eh-error-msg">Please enter a venue.</span>
       </div>
       <div class="eh-field">
-        <label>What are we catering?</label>
+        <label>Venue / Ceremony Setting</label>
+        <div class="pill-group">
+          <span class="eh-pill"><input type="radio" name="venue_setting" id="vs1" value="Indoor"><label for="vs1">Indoor</label></span>
+          <span class="eh-pill"><input type="radio" name="venue_setting" id="vs2" value="Outdoor"><label for="vs2">Outdoor</label></span>
+          <span class="eh-pill"><input type="radio" name="venue_setting" id="vs3" value="Tented"><label for="vs3">Tented</label></span>
+          <span class="eh-pill"><input type="radio" name="venue_setting" id="vs4" value="Mixed"><label for="vs4">Mixed</label></span>
+          <span class="eh-pill"><input type="radio" name="venue_setting" id="vs5" value="TBD"><label for="vs5">TBD</label></span>
+        </div>
+      </div>
+      <div class="eh-field">
+        <label>Kitchen Access at Venue</label>
+        <div class="pill-group">
+          <span class="eh-pill"><input type="radio" name="kitchen" id="k1" value="Full kitchen"><label for="k1">Full Kitchen</label></span>
+          <span class="eh-pill"><input type="radio" name="kitchen" id="k2" value="Prep kitchen only"><label for="k2">Prep Kitchen Only</label></span>
+          <span class="eh-pill"><input type="radio" name="kitchen" id="k3" value="No kitchen"><label for="k3">No Kitchen</label></span>
+          <span class="eh-pill"><input type="radio" name="kitchen" id="k4" value="Not sure"><label for="k4">Not Sure</label></span>
+        </div>
+      </div>
+      <div class="eh-field">
+        <label>Which parts of the day? <span style="font-size:0.65rem;text-transform:none;color:var(--muted);">(select all that apply)</span></label>
         <div class="pill-group">
           <span class="eh-pill"><input type="checkbox" name="event_type" id="et1" value="Ceremony"><label for="et1">Ceremony</label></span>
           <span class="eh-pill"><input type="checkbox" name="event_type" id="et2" value="Cocktail Hour"><label for="et2">Cocktail Hour</label></span>
           <span class="eh-pill"><input type="checkbox" name="event_type" id="et3" value="Reception Dinner"><label for="et3">Reception Dinner</label></span>
           <span class="eh-pill"><input type="checkbox" name="event_type" id="et4" value="Late Night Snacks"><label for="et4">Late Night Snacks</label></span>
-          <span class="eh-pill"><input type="checkbox" name="event_type" id="et5" value="Rehearsal Dinner"><label for="et5">Rehearsal Dinner</label></span>
+          <span class="eh-pill"><input type="checkbox" name="event_type" id="et5" value="Rehearsal Dinner" id="et-rehearsal"><label for="et5">Rehearsal Dinner</label></span>
           <span class="eh-pill"><input type="checkbox" name="event_type" id="et6" value="Day-After Brunch"><label for="et6">Day-After Brunch</label></span>
+        </div>
+        <!-- Rehearsal dinner expand -->
+        <div class="rehearsal-expand" id="rehearsal-expand">
+          <p class="subsection-label">Rehearsal Dinner Details</p>
+          <div class="eh-field">
+            <label for="rehearsal-date">Rehearsal Dinner Date</label>
+            <input type="date" id="rehearsal-date" name="rehearsal_date" />
+          </div>
+          <div class="two-col">
+            <div class="eh-field">
+              <label for="rehearsal-guests">Guest Count</label>
+              <input type="number" id="rehearsal-guests" name="rehearsal_guests" placeholder="e.g. 30" min="1" />
+            </div>
+            <div class="eh-field">
+              <label for="rehearsal-venue">Venue / Location</label>
+              <input type="text" id="rehearsal-venue" name="rehearsal_venue" placeholder="Same or different venue?" />
+            </div>
+          </div>
+          <div class="eh-field">
+            <label>Style</label>
+            <div class="pill-group">
+              <span class="eh-pill"><input type="radio" name="rehearsal_style" id="rs1" value="Casual dinner"><label for="rs1">Casual Dinner</label></span>
+              <span class="eh-pill"><input type="radio" name="rehearsal_style" id="rs2" value="Seated dinner"><label for="rs2">Seated Dinner</label></span>
+              <span class="eh-pill"><input type="radio" name="rehearsal_style" id="rs3" value="Cocktail style"><label for="rs3">Cocktail Style</label></span>
+              <span class="eh-pill"><input type="radio" name="rehearsal_style" id="rs4" value="Not sure yet"><label for="rs4">Not Sure</label></span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="two-col">
@@ -133,15 +196,7 @@
         <div class="eh-field">
           <label for="eh-reception-guests">Reception Guests *</label>
           <input type="number" id="eh-reception-guests" name="guest_count" placeholder="e.g. 80" min="1" />
-          <span class="eh-error-msg">Please enter guest count.</span>
-        </div>
-      </div>
-      <div class="eh-field">
-        <label>Venue has exclusive caterer?</label>
-        <div class="pill-group">
-          <span class="eh-pill"><input type="radio" name="venue_exclusive" id="ve1" value="No — open vendor"><label for="ve1">No — open vendor</label></span>
-          <span class="eh-pill"><input type="radio" name="venue_exclusive" id="ve2" value="Yes — approved list"><label for="ve2">Yes — approved list</label></span>
-          <span class="eh-pill"><input type="radio" name="venue_exclusive" id="ve3" value="Not sure"><label for="ve3">Not sure</label></span>
+          <span class="eh-error-msg">Required.</span>
         </div>
       </div>
       <div class="eh-actions">
@@ -170,12 +225,21 @@
         <textarea id="eh-food-notes" name="food_notes" placeholder="Seasonal, Mediterranean, farm-to-table... or describe your vision in any way that feels right."></textarea>
       </div>
       <div class="eh-field">
-        <label for="eh-courses">Number of Courses (dinner)</label>
+        <label>Number of Courses (dinner)</label>
         <div class="pill-group">
           <span class="eh-pill"><input type="radio" name="courses" id="c1" value="3-course"><label for="c1">3-Course</label></span>
           <span class="eh-pill"><input type="radio" name="courses" id="c2" value="4-course"><label for="c2">4-Course</label></span>
           <span class="eh-pill"><input type="radio" name="courses" id="c3" value="5-course"><label for="c3">5-Course</label></span>
-          <span class="eh-pill"><input type="radio" name="courses" id="c4" value="Not sure yet"><label for="c4">Not sure yet</label></span>
+          <span class="eh-pill"><input type="radio" name="courses" id="c4" value="Not sure yet"><label for="c4">Not Sure Yet</label></span>
+        </div>
+      </div>
+      <div class="eh-field">
+        <label>Cake / Dessert</label>
+        <div class="pill-group">
+          <span class="eh-pill"><input type="radio" name="dessert" id="des1" value="EH to handle"><label for="des1">EH to Handle</label></span>
+          <span class="eh-pill"><input type="radio" name="dessert" id="des2" value="Client providing"><label for="des2">Client Providing</label></span>
+          <span class="eh-pill"><input type="radio" name="dessert" id="des3" value="Interested in dessert course"><label for="des3">Interested in Dessert Course</label></span>
+          <span class="eh-pill"><input type="radio" name="dessert" id="des4" value="Not sure yet"><label for="des4">Not Sure</label></span>
         </div>
       </div>
       <div class="eh-field">
@@ -192,7 +256,7 @@
         <input type="text" name="dietary_other" placeholder="Other — please specify" style="margin-top:0.9rem;width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);padding:0.35rem 0;font-family:var(--font);font-size:1.05rem;outline:none;" />
       </div>
       <div class="eh-field">
-        <label>Beverage Program</label>
+        <label>Beverage Program <span style="font-size:0.65rem;text-transform:none;color:var(--muted);">(select all that apply)</span></label>
         <div class="pill-group">
           <span class="eh-pill"><input type="checkbox" name="beverage" id="bev1" value="Full Open Bar"><label for="bev1">Full Open Bar</label></span>
           <span class="eh-pill"><input type="checkbox" name="beverage" id="bev2" value="Specialty Cocktails"><label for="bev2">Specialty Cocktails</label></span>
@@ -206,8 +270,8 @@
         <label>Interested in a tasting?</label>
         <div class="pill-group">
           <span class="eh-pill"><input type="radio" name="tasting" id="tas1" value="Yes"><label for="tas1">Yes</label></span>
-          <span class="eh-pill"><input type="radio" name="tasting" id="tas2" value="Not yet"><label for="tas2">Not yet</label></span>
-          <span class="eh-pill"><input type="radio" name="tasting" id="tas3" value="After booking"><label for="tas3">After booking</label></span>
+          <span class="eh-pill"><input type="radio" name="tasting" id="tas2" value="Not yet"><label for="tas2">Not Yet</label></span>
+          <span class="eh-pill"><input type="radio" name="tasting" id="tas3" value="After booking"><label for="tas3">After Booking</label></span>
         </div>
       </div>
       <div class="eh-actions">
@@ -227,7 +291,16 @@
           <span class="eh-pill"><input type="radio" name="budget" id="b3" value="$25,000–$50,000"><label for="b3">$25K–$50K</label></span>
           <span class="eh-pill"><input type="radio" name="budget" id="b4" value="$50,000–$100,000"><label for="b4">$50K–$100K</label></span>
           <span class="eh-pill"><input type="radio" name="budget" id="b5" value="$100,000+"><label for="b5">$100K+</label></span>
-          <span class="eh-pill"><input type="radio" name="budget" id="b6" value="Not sure yet"><label for="b6">Not sure yet</label></span>
+          <span class="eh-pill"><input type="radio" name="budget" id="b6" value="Not sure yet"><label for="b6">Not Sure</label></span>
+        </div>
+      </div>
+      <div class="eh-field">
+        <label>Or think in per-person terms?</label>
+        <div class="pill-group">
+          <span class="eh-pill"><input type="radio" name="budget_pp" id="pp1" value="Under $150pp"><label for="pp1">Under $150pp</label></span>
+          <span class="eh-pill"><input type="radio" name="budget_pp" id="pp2" value="$150–$200pp"><label for="pp2">$150–$200pp</label></span>
+          <span class="eh-pill"><input type="radio" name="budget_pp" id="pp3" value="$200–$300pp"><label for="pp3">$200–$300pp</label></span>
+          <span class="eh-pill"><input type="radio" name="budget_pp" id="pp4" value="$300pp+"><label for="pp4">$300pp+</label></span>
         </div>
       </div>
       <div class="eh-field">
@@ -237,7 +310,7 @@
           <span class="eh-pill"><input type="radio" name="beverage_budget" id="bb2" value="$5,000–$15,000"><label for="bb2">$5K–$15K</label></span>
           <span class="eh-pill"><input type="radio" name="beverage_budget" id="bb3" value="$15,000–$30,000"><label for="bb3">$15K–$30K</label></span>
           <span class="eh-pill"><input type="radio" name="beverage_budget" id="bb4" value="$30,000+"><label for="bb4">$30K+</label></span>
-          <span class="eh-pill"><input type="radio" name="beverage_budget" id="bb5" value="Not sure yet"><label for="bb5">Not sure yet</label></span>
+          <span class="eh-pill"><input type="radio" name="beverage_budget" id="bb5" value="Not sure yet"><label for="bb5">Not Sure</label></span>
         </div>
       </div>
       <div class="eh-field">
@@ -258,7 +331,7 @@
     <div class="eh-section" id="eh-section-4">
       <p class="section-label">05 / 05 — final details</p>
       <div class="eh-field">
-        <label>Other Services Needed <span style="font-size:0.65rem;text-transform:none;color:var(--muted);">(optional — we can recommend trusted partners)</span></label>
+        <label>Other Services Needed <span style="font-size:0.65rem;text-transform:none;color:var(--muted);">(we can recommend trusted partners)</span></label>
         <div class="pill-group">
           <span class="eh-pill"><input type="checkbox" name="other_services" id="os1" value="Event Planner"><label for="os1">Event Planner</label></span>
           <span class="eh-pill"><input type="checkbox" name="other_services" id="os2" value="Floral Design"><label for="os2">Floral</label></span>
@@ -268,6 +341,7 @@
           <span class="eh-pill"><input type="checkbox" name="other_services" id="os6" value="Lighting"><label for="os6">Lighting</label></span>
           <span class="eh-pill"><input type="checkbox" name="other_services" id="os7" value="Rentals"><label for="os7">Rentals</label></span>
           <span class="eh-pill"><input type="checkbox" name="other_services" id="os8" value="Transportation"><label for="os8">Transportation</label></span>
+          <span class="eh-pill"><input type="checkbox" name="other_services" id="os9" value="Hair & Makeup"><label for="os9">Hair &amp; Makeup</label></span>
         </div>
       </div>
       <div class="eh-field">
@@ -296,7 +370,26 @@
 (function() {
   var SHEET_URL = 'https://script.google.com/macros/s/AKfycbwlPOUbKUAQV4iem39Ow_5Qe8CzmdbquoBwmAGy5fsRzqZqutTzPk50RMNZFDKPqG4JPA/exec';
   var current = 0;
-  var total = 5;
+
+  // Rehearsal dinner expand/collapse
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'et5') {
+      var expand = document.getElementById('rehearsal-expand');
+      if (expand) expand.classList.toggle('visible', e.target.checked);
+    }
+  });
+
+  // Argyle House pill fills venue text field
+  document.addEventListener('change', function(e) {
+    if (e.target && e.target.id === 'venue_argyle') {
+      var venueInput = document.getElementById('eh-venue');
+      if (e.target.checked) {
+        venueInput.value = 'Argyle House';
+      } else {
+        if (venueInput.value === 'Argyle House') venueInput.value = '';
+      }
+    }
+  });
 
   function goTo(n) {
     if (n > current && !validate(current)) return;
@@ -325,9 +418,8 @@
     if (s === 1) {
       var ok = true;
       var d = document.getElementById('eh-event-date');
-      var v = document.getElementById('eh-venue');
       var g = document.getElementById('eh-reception-guests');
-      [d, v, g].forEach(function(el) {
+      [d, g].forEach(function(el) {
         if (!el.value.trim()) { el.closest('.eh-field').classList.add('eh-field-error'); ok = false; }
         else { el.closest('.eh-field').classList.remove('eh-field-error'); }
       });
@@ -355,6 +447,8 @@
 
   function submitForm(e) {
     e.preventDefault();
+    var venuePreset = getSingleVal('venue_preset') ? getSingleVal('venue_preset') + ' — ' : '';
+    var venueText = document.getElementById('eh-venue').value;
     var data = {
       timestamp: new Date().toISOString(),
       name: document.getElementById('eh-name').value,
@@ -364,17 +458,26 @@
       planner: document.getElementById('eh-planner').value,
       event_type: 'Wedding — ' + getMultiVal('event_type'),
       event_date: document.getElementById('eh-event-date').value,
-      venue: document.getElementById('eh-venue').value,
+      wedding_timing: getSingleVal('wedding_timing'),
+      venue: venueText || venuePreset,
+      venue_setting: getSingleVal('venue_setting'),
+      kitchen: getSingleVal('kitchen'),
       ceremony_guests: document.getElementById('eh-ceremony-guests').value,
       guest_count: document.getElementById('eh-reception-guests').value,
-      venue_exclusive: getSingleVal('venue_exclusive'),
+      rehearsal_date: document.getElementById('rehearsal-date').value,
+      rehearsal_guests: document.getElementById('rehearsal-guests').value,
+      rehearsal_venue: document.getElementById('rehearsal-venue').value,
+      rehearsal_style: getSingleVal('rehearsal_style'),
       service_style: getMultiVal('service_style'),
-      food_notes: document.getElementById('eh-food-notes').value + (getSingleVal('courses') ? ' | ' + getSingleVal('courses') : ''),
+      food_notes: document.getElementById('eh-food-notes').value,
+      courses: getSingleVal('courses'),
+      dessert: getSingleVal('dessert'),
       dietary: getMultiVal('dietary'),
       dietary_other: document.querySelector('input[name="dietary_other"]').value,
       beverage: getMultiVal('beverage'),
       tasting: getSingleVal('tasting'),
       budget: getSingleVal('budget'),
+      budget_pp: getSingleVal('budget_pp'),
       beverage_budget: getSingleVal('beverage_budget'),
       timeline: getSingleVal('timeline'),
       other_services: getMultiVal('other_services'),
@@ -402,7 +505,6 @@
     var form = document.getElementById('eh-intake-form');
     if (!n0 || !form) { setTimeout(init, 100); return; }
     ehInited = true;
-
     document.getElementById('eh-next-0').addEventListener('click', function() { goTo(1); });
     document.getElementById('eh-next-1').addEventListener('click', function() { goTo(2); });
     document.getElementById('eh-next-2').addEventListener('click', function() { goTo(3); });
