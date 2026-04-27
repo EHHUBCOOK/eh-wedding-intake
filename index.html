@@ -127,8 +127,9 @@
         <label>Venue</label>
         <div class="pill-group" style="margin-bottom:0.6rem;">
           <span class="eh-pill"><input type="checkbox" id="venue_argyle" name="venue_preset" value="Argyle House"><label for="venue_argyle">Argyle House</label></span>
+          <span class="eh-pill"><input type="checkbox" id="venue_exploring" name="venue_preset" value="Still exploring venues"><label for="venue_exploring">Still Exploring</label></span>
         </div>
-        <input type="text" id="eh-venue" name="venue" placeholder="Or enter venue name and city" />
+        <input type="text" id="eh-venue" name="venue" placeholder="Venue name and city" />
         <span class="eh-error-msg">Please enter a venue.</span>
       </div>
       <div class="eh-field">
@@ -378,14 +379,23 @@
     }
   });
 
-  // Argyle House pill fills venue text field
+  // Venue pills fill text field
   document.addEventListener('change', function(e) {
+    var venueInput = document.getElementById('eh-venue');
     if (e.target && e.target.id === 'venue_argyle') {
-      var venueInput = document.getElementById('eh-venue');
       if (e.target.checked) {
+        document.getElementById('venue_exploring').checked = false;
         venueInput.value = 'Argyle House';
       } else {
         if (venueInput.value === 'Argyle House') venueInput.value = '';
+      }
+    }
+    if (e.target && e.target.id === 'venue_exploring') {
+      if (e.target.checked) {
+        document.getElementById('venue_argyle').checked = false;
+        venueInput.value = 'Still exploring venues';
+      } else {
+        if (venueInput.value === 'Still exploring venues') venueInput.value = '';
       }
     }
   });
