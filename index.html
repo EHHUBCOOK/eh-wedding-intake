@@ -61,7 +61,7 @@
 <div id="eh-form-wrapper">
   <div class="page-intro">
     <h1>Your wedding, our craft.</h1>
-    <p>Tell us about your day. We respond within 48 hours.</p>
+    <p>Tell us about your day. We respond within 48 hours</p>
   </div>
 
   <form id="eh-intake-form" novalidate>
@@ -110,7 +110,10 @@
     <div class="eh-section" id="eh-section-1">
       <p class="section-label">02 / 05 — the day</p>
       <div class="eh-field">
-        <label for="eh-event-date">Wedding Date *</label>
+        <label for="eh-event-date">Wedding Date</label>
+        <div class="pill-group" style="margin-bottom:0.6rem;">
+          <span class="eh-pill"><input type="checkbox" id="date_exploring" name="date_exploring" value="Exploring Options"><label for="date_exploring">Exploring Options</label></span>
+        </div>
         <input type="date" id="eh-event-date" name="event_date" />
         <span class="eh-error-msg">Please enter a date.</span>
       </div>
@@ -427,11 +430,14 @@
     if (s === 1) {
       var ok = true;
       var d = document.getElementById('eh-event-date');
+      var exploring = document.getElementById('date_exploring');
       var g = document.getElementById('eh-reception-guests');
-      [d, g].forEach(function(el) {
-        if (!el.value.trim()) { el.closest('.eh-field').classList.add('eh-field-error'); ok = false; }
-        else { el.closest('.eh-field').classList.remove('eh-field-error'); }
-      });
+      // Date only required if not exploring
+      if (!exploring.checked && !d.value) {
+        d.closest('.eh-field').classList.add('eh-field-error'); ok = false;
+      } else { d.closest('.eh-field').classList.remove('eh-field-error'); }
+      if (!g.value.trim()) { g.closest('.eh-field').classList.add('eh-field-error'); ok = false; }
+      else { g.closest('.eh-field').classList.remove('eh-field-error'); }
       return ok;
     }
     if (s === 2) {
