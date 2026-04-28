@@ -122,7 +122,7 @@
         <label>Venue</label>
         <input type="text" id="eh-venue" name="venue" placeholder="Venue name and city" />
         <div class="pill-group" style="margin-top:0.6rem;">
-          <span class="eh-pill"><input type="checkbox" id="venue_argyle" name="venue_preset" value="Argyle House"><label for="venue_argyle">Argyle House</label></span>
+          <span class="eh-pill"><input type="checkbox" id="venue_argyle" name="venue_preset" value="Argyll House"><label for="venue_argyle">Argyll House</label></span>
           <span class="eh-pill"><input type="checkbox" id="venue_exploring" name="venue_preset" value="Still exploring venues"><label for="venue_exploring">Still Exploring</label></span>
         </div>
         <span class="eh-error-msg">Please enter a venue.</span>
@@ -358,9 +358,9 @@
     if (e.target && e.target.id === 'venue_argyle') {
       if (e.target.checked) {
         document.getElementById('venue_exploring').checked = false;
-        venueInput.value = 'Argyle House';
+        venueInput.value = 'Argyll House';
       } else {
-        if (venueInput.value === 'Argyle House') venueInput.value = '';
+        if (venueInput.value === 'Argyll House') venueInput.value = '';
       }
     }
     if (e.target && e.target.id === 'venue_exploring') {
